@@ -3,50 +3,70 @@
 import Link from "next/link";
 import Image from "next/image";
 import posthog from "posthog-js";
+import type { IEvent } from "@/database/event.model";
 
-interface Props {
-    title: string;
-    image: string;
-    slug: string;
-    location: string;
-    date: string;
-    time: string;
-}
+type EventCardProps = Pick<
+  IEvent,
+  "title" | "image" | "slug" | "location" | "date"
+>;
 
-const EventCard = ({ title, image, slug, location, date, time }: Props) => {
-    const handleEventCardClick = () => {
-        posthog.capture("event_card_clicked", {
-            event_title: title,
-            event_slug: slug,
-            event_location: location,
-            event_date: date,
-            event_time: time,
-        });
-    };
+const EventCard = ({ title, image, slug, location, date }: EventCardProps) => {
+  const eventDate = new Date(date);
 
-    return (
-        <Link href={`/events/${slug}`} id="event-card" onClick={handleEventCardClick}>
-            <Image src={image} alt={title} width={410} height={300} className="poster" />
+  const formattedDate = eventDate.toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
 
-            <div className="flex flex-row gap-2">
-                <Image src="/icons/pin.svg" alt="location" width={14} height={14} />
-                <p>{location}</p>
-            </div>
+  const formattedTime = eventDate.toLocaleTimeString("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
-            <p className="title">{title}</p>
+  const handleEventCardClick = () => {
+    posthog.capture("event_card_clicked", {
+      event_title: title,
+      event_slug: slug,
+      event_location: location,
+      event_date: date,
+    });
+  };
 
-            <div className="datetime">
-                <div>
-                    <Image src="/icons/calendar.svg" alt="date" width={14} height={14} />
-                    <p>{date}</p>
-                </div>
-                <div>
-                    <Image src="/icons/clock.svg" alt="time" width={14} height={14} />
-                    <p>{time}</p>
-                </div>
-            </div>
-        </Link>
-    )
-}
+  return (
+    <Link
+      href={`/events/${slug}`}
+      id="event-card"
+      onClick={handleEventCardClick}
+    >
+      <Image
+        src={image}
+        alt={title}
+        width={410}
+        height={300}
+        className="poster"
+      />
 
-export default EventCard
+      <div className="flex flex-row gap-2">
+        <Image src="/icons/pin.svg" alt="location" width={14} height={14} />
+        <p>{location}</p>
+      </div>
+
+      <p className="title">{title}</p>
+
+      <div className="datetime">
+        <div className="flex items-center gap-1">
+          <Image src="/icons/calendar.svg" alt="date" width={14} height={14} />
+          <p>{formattedDate}</p>
+        </div>
+
+        <div className="flex items-center gap-1">
+          <Image src="/icons/clock.svg" alt="time" width={14} height={14} />
+          <p>{formattedTime}</p>
+        </div>
+      </div>
+    </Link>
+  );
+};
+
+export default EventCard;
