@@ -2,11 +2,22 @@ import FloatingLines from "@/components/FloatingLines";
 import Navbar from "@/components/Navbar";
 import ExploreBtn from "@/components/ExploreBtn";
 import EventCard from "@/components/EventCard";
-import events from "@/lib/constants";
-const Home = () => {
+import { IEvent } from "@/database";
+import { cacheLife } from "next/cache";
+
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+const Home = async () => {
+  "use cache";
+  cacheLife({
+    revalidate: 3600, // 1 hour in seconds
+  });
+  const response = await fetch(`${BASE_URL}/api/events`);
+  const { events } = await response.json();
+
   return (
     <section className="min-h-screen">
-      <div className="-z-1 w-full h-full absolute">
+      <div className="-z-1 h-full absolute">
         <FloatingLines
           enabledWaves={["top", "middle", "bottom"]}
           // Array - specify line count per wave; Number - same count for all waves
@@ -29,7 +40,7 @@ const Home = () => {
         <div className="mt-20 space-y-7">
           <h3>Featured Events</h3>
           <ul className="events">
-            {events.map((event) => (
+            {events.map((event: IEvent) => (
               <li key={event.title} className="event-card">
                 <EventCard {...event} />
               </li>
