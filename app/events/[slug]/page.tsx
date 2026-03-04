@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import BookEvent from "@/components/BookEvent";
+import { cacheLife } from "next/cache";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -41,6 +42,10 @@ const EventTags = ({ tags }: { tags: string[] }) => (
 );
 
 const EventDetailsPage = async ({ params }: { params: { slug: string } }) => {
+  "use cache";
+  cacheLife({
+    revalidate: 3600,
+  });
   const { slug } = await params;
   let event;
   try {

@@ -10,7 +10,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const Home = async () => {
   "use cache";
   cacheLife({
-    revalidate: 3600, // 1 hour in seconds
+    revalidate: 3600,
   });
   const response = await fetch(`${BASE_URL}/api/events`);
   const { events } = await response.json();
