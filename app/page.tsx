@@ -7,6 +7,7 @@ import { getEvents } from "@/lib/events";
 
 const Home = async () => {
   const events = await getEvents();
+  console.log("Fetched events:", events);
 
   return (
     <section className="min-h-screen">
