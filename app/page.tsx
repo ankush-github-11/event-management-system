@@ -3,16 +3,10 @@ import Navbar from "@/components/Navbar";
 import ExploreBtn from "@/components/ExploreBtn";
 import EventCard from "@/components/EventCard";
 import { IEvent } from "@/database";
-import { cacheLife } from "next/cache";
 import { getEvents } from "@/lib/events";
 
 const Home = async () => {
-  "use cache";
-  cacheLife({
-    revalidate: 3600,
-  });
   const events = await getEvents();
-
 
   return (
     <section className="min-h-screen">
