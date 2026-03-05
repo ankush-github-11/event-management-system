@@ -4,15 +4,15 @@ import ExploreBtn from "@/components/ExploreBtn";
 import EventCard from "@/components/EventCard";
 import { IEvent } from "@/database";
 import { cacheLife } from "next/cache";
-import { getBaseUrl } from "@/lib/get-base-url";
+import { getEvents } from "@/lib/events";
 
 const Home = async () => {
   "use cache";
   cacheLife({
     revalidate: 3600,
   });
-  const response = await fetch(`${getBaseUrl()}/api/events`);
-  const { events } = await response.json();
+  const events = await getEvents();
+
 
   return (
     <section className="min-h-screen">
