@@ -23,7 +23,7 @@ const Navbar = () => {
         <ul>
           <Link href="/" onClick={() => handleNavLinkClick("Home")}>Home</Link>
           <Link href="/" onClick={() => handleNavLinkClick("Events")}>Events</Link>
-          <Link href="/" onClick={() => handleNavLinkClick("Create Event")}>Create Event</Link>
+          <Link href="/events/create" onClick={() => handleNavLinkClick("Create Event")}>Create Event</Link>
         </ul>
       </nav>
     </header>
