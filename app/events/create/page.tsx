@@ -127,11 +127,12 @@ export default function CreateEventPage() {
           <p>Image</p>
           <input
             type="file"
+            accept="image/*"
             placeholder="Image URL"
             {...register("image")}
             className="w-full border p-2 rounded"
           />
-          {errors.image && <p className="text-red-500">{errors.image.message}</p>}
+          {errors.image && <p className="text-red-500">{String(errors.image.message)}</p>}
         </div>
 
         {/* Venue */}
