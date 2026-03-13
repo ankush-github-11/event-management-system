@@ -3,10 +3,17 @@ import Navbar from "@/components/Navbar";
 import ExploreBtn from "@/components/ExploreBtn";
 import EventCard from "@/components/EventCard";
 import { IEvent } from "@/database";
-import { getEvents } from "@/lib/events";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+// import { getEvents } from "@/lib/events";
+async function getEventsData() {
+  const res = await fetch(`${API_URL}/api/events`);
+  console.log("API response status:", res);
 
+  const data = await res.json();
+  return data.events;
+}
 const Home = async () => {
-  const events = await getEvents();
+  const events = await getEventsData();
   console.log("Fetched events:", events);
 
   return (
