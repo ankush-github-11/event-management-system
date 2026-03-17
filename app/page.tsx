@@ -6,7 +6,9 @@ import { IEvent } from "@/database";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 // import { getEvents } from "@/lib/events";
 async function getEventsData() {
-  const res = await fetch(`${BASE_URL}/api/events`);
+  const res = await fetch(`${BASE_URL}/api/events`, {
+    cache: "no-store"
+  });
   console.log("API response status:", res);
 
   const data = await res.json();
