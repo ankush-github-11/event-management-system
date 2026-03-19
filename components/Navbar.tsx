@@ -18,8 +18,8 @@ const Navbar = () => {
   }, []);
   if (!mounted) return null;
   return (
-    <header className="sticky top-3 z-100 flex justify-center mt-3">
-      <nav className="flex w-[87%] rounded-full h-13 items-center justify-between px-0 sm:px-20 bg-black/10 dark:bg-white/10 backdrop-blur-md">
+    <header className="sticky top-3 z-100 flex justify-center">
+      <nav className="flex mt-3 w-[87%] rounded-full h-13 items-center justify-between px-0 sm:px-20 bg-black/10 dark:bg-white/10 backdrop-blur-md">
         <div className="flex gap-x-3">
           <Link
             href="/"
