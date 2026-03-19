@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Schibsted_Grotesk, Martian_Mono } from "next/font/google";
-import "@/app/globals.css";
+import "./globals.css";
 import { ThemeProvider } from 'next-themes'
 
 const schibstedGrotesk = Schibsted_Grotesk({

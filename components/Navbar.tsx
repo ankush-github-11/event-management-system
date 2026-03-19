@@ -15,27 +15,29 @@ const Navbar = () => {
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
-  }, [])
+  }, []);
   if (!mounted) return null;
   return (
-    <header>
-      <nav>
-        <Link
-          href="/"
-          className="logo"
-          onClick={() => handleNavLinkClick("Logo")}
-        >
-          <Image src="/icons/logo.png" alt="logo" width={24} height={24} />
+    <header className="sticky top-3 z-100 flex justify-center mt-3">
+      <nav className="flex w-[87%] rounded-full h-13 items-center justify-between px-0 sm:px-20 bg-black/10 dark:bg-white/10 backdrop-blur-md">
+        <div className="flex gap-x-3">
+          <Link
+            href="/"
+            className="flex gap-x-1 items-center"
+            onClick={() => handleNavLinkClick("Logo")}
+          >
+            <Image src="/icons/logo.png" alt="logo" width={24} height={24} />
 
-          <p>DevEvent</p>
-        </Link>
-        <button
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="dark-mode-toggle"
-        >
-          {theme === "dark" ? "☀️" : "🌙"}
-        </button>
-        <ul>
+            <p className="font-bold text-xl">DevEvent</p>
+          </Link>
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="dark-mode-toggle"
+          >
+            {theme === "dark" ? "☀️" : "🌙"}
+          </button>
+        </div>
+        <ul className="flex gap-x-5">
           <Link href="/" onClick={() => handleNavLinkClick("Home")}>
             Home
           </Link>

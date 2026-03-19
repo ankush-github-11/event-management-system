@@ -19,8 +19,8 @@ const Home = async () => {
   console.log("Fetched events:", events);
 
   return (
-    <section className="min-h-screen">
-      <div className="-z-1 h-full absolute">
+    <div className="min-h-screen w-full">
+      <div className="-z-1 h-full w-full absolute">
         <FloatingLines
           enabledWaves={["top", "middle", "bottom"]}
           // Array - specify line count per wave; Number - same count for all waves
@@ -51,7 +51,7 @@ const Home = async () => {
           </ul>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
