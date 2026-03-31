@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import type { Db } from 'mongodb';
 
 // Define the connection cache type
 type MongooseCache = {
@@ -24,12 +25,12 @@ if (!global.mongoose) {
 /**
  * Establishes a connection to MongoDB using Mongoose.
  * Caches the connection to prevent multiple connections during development hot reloads.
- * @returns Promise resolving to the Mongoose instance
+ * Returns the native MongoDB `Db` instance so callers can use `db.collection(...)`.
  */
-async function connectDB(): Promise<typeof mongoose> {
-  // Return existing connection if available
-  if (cached.conn) {
-    return cached.conn;
+async function connectDB(): Promise<Db> {
+  // Return existing native db if available
+  if (cached.conn && cached.conn.connection && cached.conn.connection.db) {
+    return cached.conn.connection.db as Db;
   }
 
   // Return existing connection promise if one is in progress
@@ -59,7 +60,12 @@ async function connectDB(): Promise<typeof mongoose> {
     throw error;
   }
 
-  return cached.conn;
+  // Return the native MongoDB Db instance
+  if (!cached.conn || !cached.conn.connection.db) {
+    throw new Error('Failed to obtain native MongoDB db instance');
+  }
+
+  return cached.conn.connection.db as Db;
 }
 
 export default connectDB;
