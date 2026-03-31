@@ -1,53 +1,77 @@
 import Navbar from "@/components/Navbar";
-import ExploreBtn from "@/components/ExploreBtn";
 import EventCard from "@/components/EventCard";
 import { IEvent } from "@/database";
-import { BackgroundGradientAnimation } from "@/components/ui/BackgroundGradientAnimation";
+import Link from "next/link";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-// import { getEvents } from "@/lib/events";
 async function getEventsData() {
   const res = await fetch(`${BASE_URL}/api/events`, {
     cache: "no-store",
   });
-  console.log("API response status:", res);
 
   const data = await res.json();
   return data.events;
 }
+
 const Home = async () => {
   const events = await getEventsData();
-  console.log("Fetched events:", events);
 
   return (
-    <div className="min-h-screen w-full">
-      <div className="-z-1 h-full w-full absolute">
-        <BackgroundGradientAnimation>
-          <div className="absolute z-50 inset-0 flex flex-col items-center justify-center text-white font-bold px-4 pointer-events-none text-center">
-            <p className="bg-clip-text text-transparent text-3xl not-[]:md:text-4xl lg:text-7xl drop-shadow-2xl bg-linear-to-b from-white/80 to-white/20">
-              Centralized event management
-            </p>
-            <p className="text-center mt-1 mb-20 text-gray-400!">
-              Hackathons, conferences, meetups and more
-            </p>
-            <ExploreBtn />
-          </div>
-        </BackgroundGradientAnimation>
-      </div>
+    <div className="min-h-screen w-full text-white">
       <Navbar />
-      <div className="mt-[100vh] p-10">
-        <div className="mt-20 space-y-7">
-          <h1 className="text-2xl font-bold">Featured Events</h1>
-          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      {/* HERO SECTION */}
+      <section className="min-h-screen flex items-center justify-center bg-linear-to-br bg- from-pink-500 to-green-500 px-6 overflow-hidden">
+        
+
+        <div className="relative text-center max-w-2xl">
+          
+          <h1 className="text-3xl md:text-5xl font-extrabold leading-tight">
+            Centralized Event Management
+          </h1>
+
+          <p className="mt-4 text-lg text-white/80">
+            Hackathons, conferences, meetups and more — all in one place.
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+          
+
+            <Link
+              href="/signup"
+              className="px-6 py-3 rounded-xl border border-white/40 hover:bg-white/20 transition"
+            >
+              Sign Up
+            </Link>
+
+          </div>
+        </div>
+      </section>
+
+      {/* EVENTS SECTION */}
+      <section className="p-6 md:p-12 bg-black text-white">
+        
+        <div className="max-w-6xl mx-auto">
+          
+          <h2 className="text-3xl font-bold mb-8 text-center">
+            Featured Events 🚀
+          </h2>
+
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {events.map((event: IEvent) => (
-              <li key={event.title} className="">
+              <li
+                key={event.title}
+                className="transform hover:scale-105 transition duration-300"
+              >
                 <EventCard {...event} />
               </li>
             ))}
           </ul>
+
         </div>
-      </div>
+      </section>
     </div>
   );
 };

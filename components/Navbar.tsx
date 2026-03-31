@@ -18,8 +18,8 @@ const Navbar = () => {
   }, []);
   if (!mounted) return null;
   return (
-    <header className="sticky top-3 z-100 flex justify-center">
-      <nav className="flex mt-3 w-[87%] rounded-full h-13 items-center justify-between px-0 sm:px-20 bg-black/10 dark:bg-white/10 backdrop-blur-md">
+    <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-full flex justify-center pointer-events-none">
+      <nav className="pointer-events-auto flex w-[87%] max-w-5xl rounded-full h-14 items-center justify-between px-3 backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl">
         <div className="flex gap-x-3">
           <Link
             href="/"
@@ -37,10 +37,7 @@ const Navbar = () => {
             {theme === "dark" ? "☀️" : "🌙"}
           </button>
         </div>
-        <ul className="flex gap-x-5">
-          <Link href="/" onClick={() => handleNavLinkClick("Home")}>
-            Home
-          </Link>
+        <ul className="flex items-center gap-x-5">
           <Link href="/" onClick={() => handleNavLinkClick("Events")}>
             Events
           </Link>
@@ -49,6 +46,12 @@ const Navbar = () => {
             onClick={() => handleNavLinkClick("Create Event")}
           >
             Create Event
+          </Link>
+          <Link
+            href="/login"
+            className="flex pb-1.5 items-center rounded-full px-5 py-1 bg-white text-black font-semibold shadow-lg hover:scale-105 transition-transform"
+          >
+            Login
           </Link>
         </ul>
       </nav>
