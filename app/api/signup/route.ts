@@ -1,6 +1,7 @@
 import connectDB from "@/lib/mongodb";
 import { registerUserSchema } from "@/lib/validators/user.schema";
 import bcrypt from "bcryptjs";
+import User from "@/database/user.model";
 
 export async function POST(req: Request) {
   try {
@@ -15,25 +16,22 @@ export async function POST(req: Request) {
 
     const { name, username, email, password } = parsed.data;
 
-    const db = await connectDB();
+    await connectDB();
 
-    // ✅ Check existing
-    const existing = await db.collection("users").findOne({
+    // ✅ Check existing user
+    const existing = await User.findOne({
       $or: [{ email }, { username }],
     });
 
     if (existing) {
-      return Response.json(
-        { error: "User already exists" },
-        { status: 400 }
-      );
+      return Response.json({ error: "User already exists" }, { status: 400 });
     }
 
     // ✅ Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // ✅ Store user
-    await db.collection("users").insertOne({
+    // ✅ Create user (Mongoose way)
+    await User.create({
       name,
       username,
       email,
@@ -42,7 +40,7 @@ export async function POST(req: Request) {
     });
 
     return Response.json({ message: "User created" });
-  } catch (err) {
+  } catch {
     return Response.json({ error: "Server error" }, { status: 500 });
   }
 }
