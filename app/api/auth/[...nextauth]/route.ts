@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import connectDB from "@/lib/mongodb";
 import bcrypt from "bcryptjs";
-
+import User from "@/database/user.model";
 declare module "next-auth" {
   interface Session {
     user: {
@@ -29,9 +29,9 @@ const handler = NextAuth({
         password: {},
       },
       async authorize(credentials) {
-        const db = await connectDB();
+        await connectDB();
 
-        const user = await db.collection("users").findOne({
+        const user = await User.findOne({
           email: credentials?.email,
         });
 
